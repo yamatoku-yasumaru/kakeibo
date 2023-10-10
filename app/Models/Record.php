@@ -9,13 +9,18 @@ class Record extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['content'];
+    protected $fillable = [
+        'category_id',
+        'date',
+        'amount',
+        'memo'
+    ];
 
     /**
-     * この投稿を所有するユーザ。（ Userモデルとの関係を定義）
+     * このカテゴリーを所有するユーザ。（ Categoryモデルとの関係を定義）
      */
-    public function user()
+    public function category()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Category::class);
     }
 }

@@ -20,7 +20,7 @@ class RecordsController extends Controller
         ]);                              
     }
 
-    // getでmessages/createにアクセスされた場合の「新規登録画面表示処理」
+    // getでrecords/createにアクセスされた場合の「新規登録画面表示処理」
     public function create()
     {
          $record = new Record;
@@ -41,7 +41,7 @@ class RecordsController extends Controller
         // バリデーション
         $request->validate([
             'category_id'=> 'required|integer',
-            'date'=> 'required|integer',
+            'date'=> 'required|date',
             'amount'=> 'required|max:7',
             'memo'=> 'required|max:20'
         ]);
@@ -55,30 +55,64 @@ class RecordsController extends Controller
         $record->memo = $request->input('memo');
         $record->save();
 
-        return;
+        return back();
     }
     
-      // getでmessages/（任意のid）にアクセスされた場合の「取得表示処理」
+      // getでrecords/（任意のid）にアクセスされた場合の「取得表示処理」
     public function show($id)
     {
-        //
+      // idの値で検索して取得
+        $record = Record::findOrFail($id);
+
+        // 詳細ビューでそれを表示
+        return view('records.show', [
+            'record' => $record,
+        ]);
+
     }
 
-    // getでmessages/（任意のid）/editにアクセスされた場合の「更新画面表示処理」
-    public function edit($id)
-    {
-        //
+    // getでrecords/（任意のid）/editにアクセスされた場合の「更新画面表示処理」
+     public function edit(Request $request)
+     {
+        // どのレコードを編集するか取得
+        $id = $request->input('id');
+        $data = Record::find($id);
+     
     }
 
-    // putまたはpatchでmessages/（任意のid）にアクセスされた場合の「更新処理」
+    // putまたはpatchでrecords/（任意のid）にアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
-        //
+        // バリデーション
+        $request->validate([
+            'category_id'=> 'required|integer',
+            'date'=> 'required|integer',
+            'amount'=> 'required|integer',
+            'memo'=> 'required|max:20'
+        ]);
+        
+        // idの値でメッセージを検索して取得
+        $record = Record::findOrFail($id);
+        // 更新
+        $record->date = date('Y-m-d', $request->input('date') / 1000);
+        $record->category_id = $request->input('category_id');
+        $record->amount = $request->input('amount');
+        $record->memo = $request->input('memo');
+        $record->save();
+        
+        return redirect('/');
+
     }
 
-    // deleteでmessages/（任意のid）にアクセスされた場合の「削除処理」
+    // deleteでrecords/（任意のid）にアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $record = Record::findOrFail($id);
+        // メッセージを削除
+        $record->delete();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 }

@@ -2,7 +2,9 @@
 
 @section('content')
  @if (Auth::check())
-  
+
+        </div>
+    </div>
  
   @else
     <div class="prose hero bg-base-200 mx-auto max-w-full rounded">

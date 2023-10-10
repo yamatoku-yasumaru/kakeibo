@@ -25,21 +25,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/');
+Route::get('/calendar', function () {
+    return view('calendar');
 });
 
 require __DIR__.'/auth.php';
 
 
-Route::group(['middleware' => ['auth']], function () {
-    Route::group(['prefix' => 'users/{id}'], function () {                                          
-     
-    });                                                                                             
-
-    Route::resource('users', UsersController::class, ['only' => ['index', 'show']]);
-    Route::resource('records', RecordsController::class, ['only' => ['store', 'destroy']]);
-});
-
+/*Route::get('/', [RecordsController::class, 'index']);*/
+Route::resource('records', RecordsController::class);
 

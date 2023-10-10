@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
-            $table->date();
-            $table->amount();
+            $table->date('date');
+            $table->integer('amount');
             $tabel->string('memo');
             $table->timestamps();
         });

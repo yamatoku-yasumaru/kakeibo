@@ -45,7 +45,7 @@ class User extends Authenticatable
     /**
      * このユーザが所有する投稿。（ Categoryモデルとの関係を定義）
      */
-    public function categoriess()
+    public function categories()
     {
         return $this->hasMany(Category::class);
     }

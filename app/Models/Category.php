@@ -9,7 +9,10 @@ class Category extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['content'];
+    protected $fillable = [
+        'name',
+        'user_id',
+    ];
 
     /**
      * カテゴリーを所有するユーザ。（ Userモデルとの関係を定義）
@@ -17,5 +20,10 @@ class Category extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+ 
+    public function records()
+    {
+        return $this->hasMany(Record::class);
     }
 }
