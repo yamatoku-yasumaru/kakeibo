@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RecordsController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,21 +18,24 @@ use App\Http\Controllers\RecordsController;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('dashboard');
-});
+});*/
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/calendar', function () {
-    return view('calendar');
+
+Route::get('/categories/index', function () {
+    return view('categories.index');
 });
 
 require __DIR__.'/auth.php';
 
 
-/*Route::get('/', [RecordsController::class, 'index']);*/
+Route::get('/', [RecordsController::class, 'index']);
+
 Route::resource('records', RecordsController::class);
+Route::resource('categories', CategoriesController::class);
 

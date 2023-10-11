@@ -4,29 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\Category;   
+
 class CategoriesController extends Controller
 {
     public function index()
     {
-        $data = [];
-        if (\Auth::check()) { // 認証済みの場合
-            // 認証済みユーザを取得
-            $user = \Auth::user();
-            // ユーザの投稿の一覧を作成日時の降順で取得
-            
-            $categories = $user->categories()->orderBy('created_at', 'desc')->paginate(10);
-            $data = [
-                'user' => $user,
-                'categoriess' => $categories,
-            ];
-        }
+        // カテゴリー一覧を取得
+        $categories = Category::all(); 
         
-        return view('categories.index', $data);
+         // 一覧ビューで表示
+        return view('categories.index', [
+            'categories' => $categories,
+        ]);                            
+
     }
     
      public function create()
     {
-        //
+        $category = new Category;
+        
+         return view('categories.create', [
+            'category' => $category,
+        ]);
     }
     
     public function store(Request $request)
@@ -37,35 +38,72 @@ class CategoriesController extends Controller
             'user_id' => 'required|integer',
         ]);
         
-        // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $request->user()->categories()->create([
-            'name' => $request->name,
-            'user_id' => $request->user_id,
-        ]);
-        
-        // 前のURLへリダイレクトさせる
-        return back();
+       // 登録処理
+        $category = new Category;
+ 
+        $category->user_id = $request->user_id;
+        $category->name = $request->name;
+        $category->save();
+
+         return redirect('/');
     }
     
      public function show(string $id)
     {
-        //
+      // idの値で検索して取得
+        $category = Category::findOrFail($id);
+
+        // 詳細ビューでそれを表示
+        return view('categories.show', [
+            'category' => $category,
+        ]);
+
     }
 
     public function edit(string $id)
-    {
-        //
+    { 
+       // idの値でメッセージを検索して取得
+        $record = Record::findOrFail($id);
+
+        // メッセージ編集ビューでそれを表示
+        return view('records.edit', [
+            'record' => $record,
+        ]);
     }
  
-    public function update(Request $request, string $id)
+     // putまたはpatchでrecords/（任意のid）にアクセスされた場合の「更新処理」
+    public function update(Request $request, $id)
     {
-        //
+       // バリデーション
+        $request->validate([
+            'name' => 'required|max:20',
+            'user_id' => 'required|integer',
+        ]);
+
+        // idの値でメッセージを検索して取得
+        $category = Category::findOrFail($id);
+        // メッセージを更新
+        $category->name = $request->input('name');
+        $category->user_id = $request->input('user_id');
+
+        dd($category);   
+
+        $category->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
+
     }
 
-    public function destroy(string $id)
+    // deleteでrecords/（任意のid）にアクセスされた場合の「削除処理」
+    public function destroy($id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $record = Category::findOrFail($id);
+        // メッセージを削除
+        $category->delete();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
-
-
 }

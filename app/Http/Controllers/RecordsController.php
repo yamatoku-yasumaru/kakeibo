@@ -12,7 +12,7 @@ class RecordsController extends Controller
     public function index()
     {
         // 入力一覧を取得
-        $records = Record::all(); 
+        $records = Record::orderBy('date')->paginate(10);; 
         
          // 一覧ビューでそれを表示
         return view('records.index', [
@@ -48,14 +48,14 @@ class RecordsController extends Controller
 
         // 登録処理
         $record = new Record;
-        // 日付に変換。JavaScriptのタイムスタンプはミリ秒なので秒に変換
-        $record->date = date('Y-m-d', $request->input('date') / 1000);
-        $record->category_id = $request->input('category_id');
-        $record->amount = $request->input('amount');
-        $record->memo = $request->input('memo');
+       
+        $record->date = $request->date('Y-m-d');
+        $record->category_id = $request->category_id;
+        $record->amount = $request->amount;
+        $record->memo = $request->memo;
         $record->save();
 
-        return back();
+        return redirect('/');
     }
     
       // getでrecords/（任意のid）にアクセスされた場合の「取得表示処理」
@@ -71,13 +71,16 @@ class RecordsController extends Controller
 
     }
 
-    // getでrecords/（任意のid）/editにアクセスされた場合の「更新画面表示処理」
-     public function edit(Request $request)
-     {
-        // どのレコードを編集するか取得
-        $id = $request->input('id');
-        $data = Record::find($id);
-     
+    // getでmessages/id/editにアクセスされた場合の「更新画面表示処理」
+    public function edit($id)
+    {
+        // idの値でメッセージを検索して取得
+        $record = Record::findOrFail($id);
+
+        // メッセージ編集ビューでそれを表示
+        return view('records.edit', [
+            'record' => $record,
+        ]);
     }
 
     // putまたはpatchでrecords/（任意のid）にアクセスされた場合の「更新処理」
@@ -86,7 +89,7 @@ class RecordsController extends Controller
         // バリデーション
         $request->validate([
             'category_id'=> 'required|integer',
-            'date'=> 'required|integer',
+            'date'=> 'required|date',
             'amount'=> 'required|integer',
             'memo'=> 'required|max:20'
         ]);

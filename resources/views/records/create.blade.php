@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 @section('content')
 
@@ -7,7 +8,7 @@
     
   <section class="p-section p-section__records-input">
 
-      <form method="POST" action="{{ route('records.store') } class="p-form p-form--input-record" >
+      <form method="POST" action="{{ route('records.store') } class="w-1/2" >
         @csrf
       
         <input type="hidden" name="input_time" id="input_time" value="<?php echo date("Y/m/d-H:i:s"); ?>">
@@ -23,8 +24,8 @@
             <input type="text" name="amount" class="input input-bordered w-1/2">
         </div>
         
-        <div class="form-control my-4">
-             <label for="memo" class="label">
+          <div class="form-control my-4">
+            <label for="category" class="label">
               <span class="label-text">カテゴリー:</span>
             </label>
             <input type="text" name="category" class="input input-bordered w-1/2">
@@ -40,3 +41,6 @@
         <input class="c-button c-button--bg-blue" type="submit" value="登録">
       </form>
   </section>
+  
+
+@endsection

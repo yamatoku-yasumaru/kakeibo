@@ -5,9 +5,9 @@
     <li><a class="link link-hover" href="{{ route('records.create') }}">新規作成</a></li>
     {{-- 集計へのリンク--}}
     
-    {{-- ユーザ詳細ページへのリンク --}}
-    <li><a class="link link-hover" href="#">プロフィール</a></li>
-    <li class="divider lg:hidden"></li>
+    {{-- 設定（ユーザー詳細・カテゴリー詳細）へのリンク --}}
+    <li><a class="link link-hover" href="{{ route('categories.index') }}">設定</a></li>
+    
     {{-- ログアウトへのリンク --}}
     <li><a class="link link-hover" href="#" onclick="event.preventDefault();this.closest('form').submit();">ログアウト</a></li>
 @else
