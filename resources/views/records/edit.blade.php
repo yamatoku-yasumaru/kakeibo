@@ -20,14 +20,21 @@
                          
                 <div class="p-form__flex-input">
                     <p>金額</p>
-                    <input type="number" name="amount" value="{{ $record->amount }}" maxlength="7" >
+                    <input type="text" name="amount" value="{{ $record->amount }}" maxlength="7" >
                 </div>
             
-                <label for="category">
-                	    <p>カテゴリー</p>
-                    <select name="category" id="category">
-                    <option value="{{$record->category_id}}">{{$record->category->name}}</option>
+                <div class="form-control my-4">
+                    <label for="category" class="label">
+                        <span class="label-text">カテゴリー</span>
+                    </label>
+                    <select name="category_id">
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}"
+                                @if(old('category_id') == $category->id) selected @endif>
+                                {{ $category->name }}</option>
+                        @endforeach
                     </select>
+                </div>
                 
                 <div class="p-form__flex-input">
                     <p>メモ</p>

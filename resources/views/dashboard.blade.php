@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
  @if (Auth::check())
 
         </div>
@@ -11,6 +12,7 @@
         <div class="hero-content text-center my-10">
             <div class="max-w-md mb-10">
                 <h2>Welcome</h2>
+            
                 {{-- ログインページへのリンク --}}
                 <a class="btn btn-primary btn-lg normal-case" href="{{ route('login') }}">ログイン</a>
                 {{-- ユーザ登録ページへのリンク --}}

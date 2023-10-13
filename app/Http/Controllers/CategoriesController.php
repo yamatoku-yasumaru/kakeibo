@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;   
+use App\Models\Record;
 
 class CategoriesController extends Controller
 {
@@ -23,6 +24,7 @@ class CategoriesController extends Controller
     
      public function create()
     {
+       
         $category = new Category;
         
          return view('categories.create', [
@@ -34,15 +36,14 @@ class CategoriesController extends Controller
     {
         // バリデーション
         $request->validate([
-            'name' => 'required|max:20',
-            'user_id' => 'required|integer',
+            'category' => 'required|max:20',
         ]);
         
        // 登録処理
         $category = new Category;
  
-        $category->user_id = $request->user_id;
-        $category->name = $request->name;
+        $category->user_id = \Auth::id();
+        $category->name = $request->category;
         $category->save();
 
          return redirect('/');
@@ -59,15 +60,16 @@ class CategoriesController extends Controller
         ]);
 
     }
-
+    
+    // getでcategories/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit(string $id)
     { 
        // idの値でメッセージを検索して取得
-        $record = Record::findOrFail($id);
+        $category = Category::findOrFail($id);
 
         // メッセージ編集ビューでそれを表示
-        return view('records.edit', [
-            'record' => $record,
+        return view('categories.edit', [
+            'category' => $category,
         ]);
     }
  
@@ -76,18 +78,14 @@ class CategoriesController extends Controller
     {
        // バリデーション
         $request->validate([
-            'name' => 'required|max:20',
-            'user_id' => 'required|integer',
+            'category' => 'required|max:20',
         ]);
 
         // idの値でメッセージを検索して取得
         $category = Category::findOrFail($id);
         // メッセージを更新
-        $category->name = $request->input('name');
-        $category->user_id = $request->input('user_id');
-
-        dd($category);   
-
+        $category->user_id = \Auth::id();
+        $category->name = $request->input('category');
         $category->save();
 
         // トップページへリダイレクトさせる
@@ -99,7 +97,7 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         // idの値でメッセージを検索して取得
-        $record = Category::findOrFail($id);
+        $category = Category::findOrFail($id);
         // メッセージを削除
         $category->delete();
 

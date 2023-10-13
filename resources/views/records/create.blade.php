@@ -8,10 +8,10 @@
     
   <section class="p-section p-section__records-input">
 
-      <form method="POST" action="{{ route('records.store') } class="w-1/2" >
+      <form method="POST" action="{{ route('records.store') }}" class="w-1/2" >
         @csrf
       
-        <input type="hidden" name="input_time" id="input_time" value="<?php echo date("Y/m/d-H:i:s"); ?>">
+        <input type="hidden" name="date" id="date" value="<?php echo date("Y/m/d"); ?>">
         <div class="p-form__flex-input">
           <p>日付</p>
           <label for="date"><input type="date" name="date" id="date" value="<?php echo date("Y-m-d"); ?>" required></label>
@@ -28,7 +28,12 @@
             <label for="category" class="label">
               <span class="label-text">カテゴリー:</span>
             </label>
-            <input type="text" name="category" class="input input-bordered w-1/2">
+           
+            <select name="category_id">
+            @foreach($categories as $category)
+              <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+            </select>
         </div>
             
         <div class="form-control my-4">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Record;
+use App\Models\Category;
+use Carbon\Carbon;
 
 class RecordsController extends Controller
 {
@@ -12,22 +14,55 @@ class RecordsController extends Controller
     public function index()
     {
         // 入力一覧を取得
-        $records = Record::orderBy('date')->paginate(10);; 
+        $records = Record::orderBy('date')->paginate(10);
         
          // 一覧ビューでそれを表示
         return view('records.index', [
             'records' => $records,
         ]);                              
     }
+    
+    /**
+     * イベントを取得
+     *
+     * @param  Request  $request
+     */
+    public function scheduleGet(Request $request)
+    {
+        // バリデーション
+        $request->validate([
+            'start_date' => 'required|integer',
+            'end_date' => 'required|integer'
+        ]);
+
+        // カレンダー表示期間
+        $start_date = $request->input('start_date') ;
+        $end_date = $request->input('end_date') ;
+
+        // 登録処理
+        return Record::query()
+            ->select(
+                // FullCalendarの形式に合わせる
+                'start_date as start',
+                'end_date as end',
+            )
+            // FullCalendarの表示範囲のみ表示
+            ->where('end_date', '>', $start_date)
+            ->where('start_date', '<', $end_date)
+            ->get();
+    }
+
 
     // getでrecords/createにアクセスされた場合の「新規登録画面表示処理」
     public function create()
     {
          $record = new Record;
+         $categories = Category::all();
 
         // メッセージ作成ビューを表示
         return view('records.create', [
             'record' => $record,
+            'categories' => $categories,
         ]);
     }
     
@@ -38,6 +73,7 @@ class RecordsController extends Controller
      */
     public function store(Request $request)
     {
+        /*dd($request);*/
         // バリデーション
         $request->validate([
             'category_id'=> 'required|integer',
@@ -49,7 +85,7 @@ class RecordsController extends Controller
         // 登録処理
         $record = new Record;
        
-        $record->date = $request->date('Y-m-d');
+        $record->date = $request->date;
         $record->category_id = $request->category_id;
         $record->amount = $request->amount;
         $record->memo = $request->memo;
@@ -76,10 +112,12 @@ class RecordsController extends Controller
     {
         // idの値でメッセージを検索して取得
         $record = Record::findOrFail($id);
+        $categories = Category::all();
 
         // メッセージ編集ビューでそれを表示
         return view('records.edit', [
             'record' => $record,
+            'categories' => $categories,
         ]);
     }
 
@@ -89,15 +127,16 @@ class RecordsController extends Controller
         // バリデーション
         $request->validate([
             'category_id'=> 'required|integer',
-            'date'=> 'required|date',
-            'amount'=> 'required|integer',
+            'input_time'=> 'required|date',
+            'amount'=> 'required|max:7',
             'memo'=> 'required|max:20'
         ]);
         
         // idの値でメッセージを検索して取得
         $record = Record::findOrFail($id);
+        
         // 更新
-        $record->date = date('Y-m-d', $request->input('date') / 1000);
+        $record->date = $request->input('date');
         $record->category_id = $request->input('category_id');
         $record->amount = $request->input('amount');
         $record->memo = $request->input('memo');
@@ -112,6 +151,7 @@ class RecordsController extends Controller
     {
         // idの値でメッセージを検索して取得
         $record = Record::findOrFail($id);
+
         // メッセージを削除
         $record->delete();
 

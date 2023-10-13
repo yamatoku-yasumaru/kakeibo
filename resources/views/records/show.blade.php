@@ -34,7 +34,7 @@
         @method('DELETE')
         
         <button type="submit" class="btn btn-error btn-outline" 
-            onclick="return confirm('id = {{ $record->id }} 削除します。よろしいですか？')">削除</button>
+            onclick="return confirm('削除します。よろしいですか？')">削除</button>
     </form>
 @endsection
     

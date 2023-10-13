@@ -23,9 +23,8 @@
         </div>
     </div>
     
-    
 <!--カレンダー表示-->
-<html>
+<html lang="ja">
     <head>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

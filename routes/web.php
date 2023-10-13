@@ -18,24 +18,20 @@ use App\Http\Controllers\CategoriesController;
 |
 */
 
-/*Route::get('/', function () {
+
+
+Route::get('/', function () {
     return view('dashboard');
-});*/
+})->middleware(['auth'])->name('records.index');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-
-Route::get('/categories/index', function () {
-    return view('categories.index');
-});
+Route::post('/records/index', [RecordsController::class, 'scheduleGet'])->name('schedule-get');
 
 require __DIR__.'/auth.php';
 
 
-Route::get('/', [RecordsController::class, 'index']);
+/*Route::get('/', [RecordsController::class, 'index']);*/
 
 Route::resource('records', RecordsController::class);
 Route::resource('categories', CategoriesController::class);
+Route::resource('users', UsersController::class);
 
