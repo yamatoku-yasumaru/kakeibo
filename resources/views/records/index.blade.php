@@ -4,24 +4,18 @@
 
     <div class='bg-white p-6 roundded shadow'>
         <div class=text-x2 mb-6>
-            <h2>今月の合計</h2>
-         <p class='text-2xl'>￥</p>
-        </div>    
-    </div>
-    
-    <div class='bg-white p-6 roundded shadow'>
-        <div class=text-x1 mb-6>
-            <h2>今月の収入</h2>
-            <p class='text-2xl'>￥</p>
+            <thead>
+                <tr>
+                    <th>当月合計</th>
+                 </tr>
+            </thead>
         </div>
-    </div>
+    <div>
+   
+      <tr>
+        <td>￥{{ $total_amount }}</td>
+      </tr>
     
-    <div class='bg-white p-6 roundded shadow'>
-        <div class=text-x1 mb-6>
-            <h2>今月の支出</h2>
-            <p class='text-2xl'>￥</p>
-        </div>
-    </div>
     
 <!--カレンダー表示-->
 <html lang="ja">
@@ -69,8 +63,7 @@
 
         <td class="button-td">
             
-    {{-- ページネーションのリンク --}}
-    {{ $records->links() }}
+ 
 
                            
 @endsection

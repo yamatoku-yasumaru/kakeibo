@@ -3,9 +3,16 @@
 @section('content')
 
  @if (Auth::check())
-
+  <div class="sm:grid sm:grid-cols-3 sm:gap-10">
+            <aside class="mt-4">
+                {{-- ユーザ情報 --}}
+                @include('users.card')
+            </aside>
+            <div class="sm:col-span-2">
+                {{-- 投稿フォーム --}}
+                @include('records.index')
+            </div>
         </div>
-    </div>
  
   @else
     <div class="prose hero bg-base-200 mx-auto max-w-full rounded">
@@ -20,5 +27,7 @@
             </div>
         </div>
     </div>
+    
      @endif
+     
 @endsection

@@ -20,13 +20,16 @@
 {{-- 編集ページへのリンク --}}
     <a class="btn btn-outline" href="{{ route('categoriess.edit', $categories->id) }}">編集</a>
     
-     {{-- メッセージ削除フォーム --}}
-    <form method="POST" action="{{ route('categoriess.destroy', $categories->id) }}" class="my-2">
+      <div>
+        @if (Auth::id() == $category->user_id)
+            {{-- 投稿削除ボタンのフォーム --}}
+            <form method="POST" action="{{ route('categoriess.destroy', $category->id) }}">
         @csrf
         @method('DELETE')
-        
-        <button type="submit" class="btn btn-error btn-outline" 
-            onclick="return confirm('id = {{ $category->id }} 削除します。よろしいですか？')">削除</button>
-    </form>
+            <button type="submit" class="btn btn-error btn-sm normal-case" 
+            onclick="return confirm('Delete id = {{ $category->id }} ?')">Delete</button>
+            </form>
+         @endif
+    </div>
 @endsection
     

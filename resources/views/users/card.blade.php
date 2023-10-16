@@ -1,9 +1,26 @@
-<div class="card border border-base-300">
-    <div class="card-body bg-base-200 text-4xl">
-        <h2 class="card-title">{{ $user->name }}</h2>
-    </div>
-    <figure>
-        {{-- ユーザのメールアドレスをもとにGravatarを取得して表示 --}}
-        <img src="{{ Gravatar::get($user->email, ['size' => 500]) }}" alt="">
-    </figure>
+
+
+<div class="mt-4">
+    @if (isset($categories))
+        <ul class="list-none">
+            @foreach ($categories as $category)
+                <li class="flex items-start gap-x-2 mb-4">
+                    {{-- 投稿の所有者のメールアドレスをもとにGravatarを取得して表示 --}}
+                    <div class="avatar">
+                        <div class="w-12 rounded">
+                            <img src="{{ Gravatar::get($category->user->email) }}" alt="" />
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            {{-- 投稿の所有者のユーザ詳細ページへのリンク --}}
+                            <a class="link link-hover text-info" href="{{ route('users.show', $category->user->id) }}">{{ $category->user->name }}</a>
+                            <span class="text-muted text-gray-500">posted at {{ $category->created_at }}</span>
+                        </div>
+                       
+                    </div>
+                </li>
+            @endforeach
+
+    @endif
 </div>

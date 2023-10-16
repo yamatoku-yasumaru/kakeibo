@@ -2,7 +2,7 @@
     <nav class="navbar bg-neutral text-neutral-content">
         {{-- トップページへのリンク --}}
         <div class="flex-1">
-            <h1><a class="btn btn-ghost normal-case text-xl" href="/">家計簿</a></h1>
+            <h1><b class="text-xl">家計簿</b></h1>
         </div>
 
         <div class="flex-none">

@@ -7,24 +7,26 @@
     </div>
     
     <div class="flex justify-center">
-        <form method="POST" action="{{ route('login') }}" class="w-1/2">
+        <form method="POST" action="{{ route('login') }}" class="w-4/5">
             @csrf
 
-            <div class="form-control my-4">
+            <div class="form-group row">
                 <label for="email" class="label">
-                    <span class="label-text">メール</span>
+                     <span class="label-text">メール</span>
+                <input type="email" name="email" class="input input-bordered">
                 </label>
-                <input type="email" name="email" class="input input-bordered w-full">
             </div>
 
-            <div class="form-control my-4">
+            <div class="form-group row">
                 <label for="password" class="label">
                     <span class="label-text">パスワード</span>
+                <input type="password" name="password" class="input input-bordered">
                 </label>
-                <input type="password" name="password" class="input input-bordered w-full">
             </div>
-
+            
+            <div align="center">
             <button type="submit" class="btn btn-primary btn">ログイン</button>
+            </div>
             
         </form>
     </div>

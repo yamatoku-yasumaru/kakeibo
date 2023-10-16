@@ -18,13 +18,25 @@ use App\Http\Controllers\CategoriesController;
 |
 */
 
-
+/*Route::group(['middleware' => ['auth']], function () {
+    Route::group(['prefix' => 'users/{id}'], function () {
+        Route::post('/', [RecordsController::class, 'index'])->name('home'); 
+        Route::post('records.create',[RecordsController::class, 'create'])->name('records.create');
+        Route::
+        Route::post('/records/index', [RecordsController::class, 'scheduleGet'])->name('schedule-get');
+    });                                                                                         
+    
+    Route::resource('users', UsersController::class, ['only' => ['index', 'show']]);
+    Route::resource('records', RecordsController::class, ['only' => ['store', 'destroy']]);
+    Route::resource('categories', CategoriesController::class, ['only' => ['store', 'destroy']]);
+});*/
 
 Route::get('/', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('records.index');
+})->middleware(['auth'])->name('home');
 
-Route::post('/records/index', [RecordsController::class, 'scheduleGet'])->name('schedule-get');
+
+
 
 require __DIR__.'/auth.php';
 

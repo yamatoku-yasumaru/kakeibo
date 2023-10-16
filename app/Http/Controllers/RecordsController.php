@@ -15,11 +15,13 @@ class RecordsController extends Controller
     {
         // 入力一覧を取得
         $records = Record::orderBy('date')->paginate(10);
+        $total_amount = $records->sum("amount");
         
          // 一覧ビューでそれを表示
         return view('records.index', [
             'records' => $records,
-        ]);                              
+            'total_amount' => $total_amount,
+        ]); 
     }
     
     /**
@@ -107,7 +109,7 @@ class RecordsController extends Controller
 
     }
 
-    // getでmessages/id/editにアクセスされた場合の「更新画面表示処理」
+    // getでrecords/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
         // idの値でメッセージを検索して取得

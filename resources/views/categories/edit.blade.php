@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+    
     <div class="prose ml-4">
         <h2>編集</h2>
     </div>
@@ -19,6 +21,8 @@
 
             <button type="submit" class="btn btn-primary btn-outline">更新</button>
         </form>
+
+        	
     </section>
 
 @endsection
