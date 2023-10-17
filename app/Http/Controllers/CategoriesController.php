@@ -12,14 +12,13 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        
-       // カテゴリー一覧を取得
-        $categories = Category::all(); 
+        // カテゴリー一覧を取得
+        $categories = Category::where('user_id', \Auth::id())->get(); 
         
          // 一覧ビューで表示
         return view('categories.index', [
             'categories' => $categories,
-        ]);                         
+        ]);                            
 
     }
     
@@ -47,7 +46,7 @@ class CategoriesController extends Controller
         $category->name = $request->category;
         $category->save();
 
-         return redirect('/');
+         return redirect('/categories');
     }
     
      public function show(string $id)
@@ -59,13 +58,12 @@ class CategoriesController extends Controller
         return view('categories.show', [
             'category' => $category,
         ]);
-        
+
     }
     
     // getでcategories/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit(string $id)
     { 
-        /*dd($id);*/
        // idの値でメッセージを検索して取得
         $category = Category::findOrFail($id);
 
@@ -75,7 +73,7 @@ class CategoriesController extends Controller
         ]);
     }
  
-     // putまたはpatchでcategories/（任意のid）にアクセスされた場合の「更新処理」
+     // putまたはpatchでrecords/（任意のid）にアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
        // バリデーション
@@ -86,13 +84,12 @@ class CategoriesController extends Controller
         // idの値でメッセージを検索して取得
         $category = Category::findOrFail($id);
         // メッセージを更新
-        $category->id = $request->input('category');
         $category->user_id = \Auth::id();
         $category->name = $request->input('category');
         $category->save();
 
         // トップページへリダイレクトさせる
-        return redirect('/');
+        return redirect('/records');
 
     }
 
@@ -105,7 +102,6 @@ class CategoriesController extends Controller
         $category->delete();
 
         // トップページへリダイレクトさせる
-        return redirect('/');
-        
+        return redirect('/records');
     }
 }

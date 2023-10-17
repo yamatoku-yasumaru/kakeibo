@@ -15,15 +15,16 @@
         </div>
  
   @else
-    <div class="prose hero bg-base-200 mx-auto max-w-full rounded">
+    <div class="prose hero mx-auto max-w-full rounded">
         <div class="hero-content text-center my-10">
-            <div class="max-w-md mb-10">
+            <div class="max-w-md mb-10" style="font-family:cursive">
                 <h2>Welcome</h2>
             
+
                 {{-- ログインページへのリンク --}}
-                <a class="btn btn-primary btn-lg normal-case" href="{{ route('login') }}">ログイン</a>
+                <a class="btn btn-primary normal-case" href="{{ route('login') }}">ログイン</a>
                 {{-- ユーザ登録ページへのリンク --}}
-                <a class="btn btn-primary btn-lg normal-case" href="{{ route('register') }}">会員登録</a>
+                <a class="btn btn-primary normal-case" href="{{ route('register') }}">会員登録</a>
             </div>
         </div>
     </div>

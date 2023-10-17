@@ -6,31 +6,36 @@ import axios from 'axios';
 
 var calendarEl = document.getElementById("calendar");
 
-const calendar = new Calendar(calendarEl, {
-  plugins: [dayGridPlugin],
-  initialView: 'dayGridMonth',
-  navLinks: true,
 
- // 日付をクリック、または範囲を選択したイベント
-    selectable: true,
-    
-records: function (info, successCallback, failureCallback) {
-        // Laravelのイベント取得処理の呼び出し
-        axios
-            .post("/records/create", {
-                start_date: info.start.valueOf(),
-                end_date: info.end.valueOf(),
-            })
-            .then((response) => {
-                // カレンダーに読み込み
-                successCallback(response.data);
-            })
-            .catch(() => {
-                // バリデーションエラーなど
-                alert("登録に失敗しました");
-            });
-    },
-
-});
-
-calendar.render();
+axios.get("/get_data")
+    .then(res => {
+        console.log(res['data']);
+        const calendar = new Calendar(calendarEl, {
+            plugins: [dayGridPlugin],
+            initialView: 'dayGridMonth',
+            navLinks: true,
+            locale: 'ja',
+            dayCellContent: function(e) {
+            e.dayNumberText = e.dayNumberText.replace('日', '');
+            },
+            headerToolbar: {
+    		start: "prev",
+    		center: "title",
+    		end: "next"
+	        },
+ 
+            // 日付をクリック、または範囲を選択したイベント
+            selectable: true,
+            
+            events: res['data']['records'],
+            eventClick: function(info) {
+               var eventUrl = '/records/' + info.event.id;
+               //   console.log(eventUrl);
+               window.location.href = eventUrl;
+            }
+        });                                 
+        calendar.render();                                   
+    })
+    .fail(error => {
+        console.log(error)
+    });

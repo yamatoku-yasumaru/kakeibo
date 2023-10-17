@@ -7,51 +7,43 @@ use Illuminate\Http\Request;
 use App\Models\Record;
 use App\Models\Category;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class RecordsController extends Controller
 {
     // getでrecords/にアクセスされた場合の「一覧表示処理」
     public function index()
     {
-        // 入力一覧を取得
-        $records = Record::orderBy('date')->paginate(10);
-        $total_amount = $records->sum("amount");
+        $start_date = Carbon::now()->startOfMonth()->toDateString();
+        $end_date = Carbon::now()->endOfMonth()->toDateString();
         
-         // 一覧ビューでそれを表示
+        // 入力一覧を取得
+        $records = Record::whereHas('Category', function($query){
+            $query->where('user_id', \Auth::id());
+        })->where('date', '>', $start_date)->where('date', '<', $end_date)->orderBy('date')->paginate(10);
+  
+
+        $amount_income = 0;
+        $amount_outcome = 0;
+        
+        foreach($records as $record){
+            $category = $record->category;
+
+            if($category->name == '収入'){
+                $amount_income += $record->amount;
+            }else{                  
+                $amount_outcome +=  $record->amount;
+            }
+                                                                                                                                                                                                
+        }                                                                                           
+
+        
+        // 一覧ビューでそれを表示
         return view('records.index', [
             'records' => $records,
-            'total_amount' => $total_amount,
-        ]); 
-    }
-    
-    /**
-     * イベントを取得
-     *
-     * @param  Request  $request
-     */
-    public function scheduleGet(Request $request)
-    {
-        // バリデーション
-        $request->validate([
-            'start_date' => 'required|integer',
-            'end_date' => 'required|integer'
-        ]);
-
-        // カレンダー表示期間
-        $start_date = $request->input('start_date') ;
-        $end_date = $request->input('end_date') ;
-
-        // 登録処理
-        return Record::query()
-            ->select(
-                // FullCalendarの形式に合わせる
-                'start_date as start',
-                'end_date as end',
-            )
-            // FullCalendarの表示範囲のみ表示
-            ->where('end_date', '>', $start_date)
-            ->where('start_date', '<', $end_date)
-            ->get();
+            'amount_income' => $amount_income,
+            'amount_outcome' => $amount_outcome,
+        ]);                              
     }
 
 
@@ -59,7 +51,7 @@ class RecordsController extends Controller
     public function create()
     {
          $record = new Record;
-         $categories = Category::all();
+         $categories = Category::where('user_id', \Auth::id())->get();
 
         // メッセージ作成ビューを表示
         return view('records.create', [
@@ -93,7 +85,7 @@ class RecordsController extends Controller
         $record->memo = $request->memo;
         $record->save();
 
-        return redirect('/');
+        return redirect('/records');
     }
     
       // getでrecords/（任意のid）にアクセスされた場合の「取得表示処理」
@@ -109,7 +101,7 @@ class RecordsController extends Controller
 
     }
 
-    // getでrecords/id/editにアクセスされた場合の「更新画面表示処理」
+    // getでmessages/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
         // idの値でメッセージを検索して取得
@@ -144,7 +136,7 @@ class RecordsController extends Controller
         $record->memo = $request->input('memo');
         $record->save();
         
-        return redirect('/');
+        return redirect('/records/' . $id);
 
     }
 
@@ -159,5 +151,20 @@ class RecordsController extends Controller
 
         // トップページへリダイレクトさせる
         return redirect('/');
+    }
+    
+    public function scheduleGet(){
+        // $date = date('Y-m-d');
+        $start_date = Carbon::now()->startOfMonth()->toDateString();
+        $end_date = Carbon::now()->endOfMonth()->toDateString();
+        $params = ["user_id" => \Auth::id(), 'category_name' => '収入'];
+        $records = DB::select('SELECT records.id AS id, CONCAT(categories.name, CONCAT(records.memo, records.amount)) AS title, records.amount AS description, records.date AS start, records.date AS end FROM records JOIN categories ON records.category_id = categories.id WHERE  categories.user_id = :user_id AND categories.name != :category_name', $params);
+        // dd($records);
+        $list = array('records' => $records);
+        // 明示的に指定しない場合は、text/html型と判断される
+        header("Content-type: application/json; charset=UTF-8");
+        //JSONデータを出力
+        echo json_encode($list);
+        exit;
     }
 }

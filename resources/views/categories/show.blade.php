@@ -18,12 +18,12 @@
     </table>
 
 {{-- 編集ページへのリンク --}}
-    <a class="btn btn-outline" href="{{ route('categoriess.edit', $categories->id) }}">編集</a>
+    <a class="btn btn-outline" href="{{ route('categories.edit', $category->id) }}">編集</a>
     
       <div>
         @if (Auth::id() == $category->user_id)
             {{-- 投稿削除ボタンのフォーム --}}
-            <form method="POST" action="{{ route('categoriess.destroy', $category->id) }}">
+            <form method="POST" action="{{ route('categories.destroy', $category->id) }}">
         @csrf
         @method('DELETE')
             <button type="submit" class="btn btn-error btn-sm normal-case" 
