@@ -14,8 +14,7 @@
                     <div>
                         <div>
                             {{-- 投稿の所有者のユーザ詳細ページへのリンク --}}
-                            <a class="link link-hover text-info" href="{{ route('users.show', $category->user->id) }}">{{ $category->user->name }}</a>
-                            <span class="text-muted text-gray-500">posted at {{ $category->created_at }}</span>
+                            <a class="link link-hover text-info" href="{{ route('users.index', $category->user->id) }}">{{ $category->user->name }}</a>
                         </div>
                        
                     </div>

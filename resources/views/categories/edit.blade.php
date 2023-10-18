@@ -19,7 +19,7 @@
                     <input type="text" name="category" value="{{ $category->name }}" maxlength="20" >
                 </div>
 
-            <button type="submit" class="btn btn-primary btn-outline">更新</button>
+            <button type="submit" class="btn btn-outline-danger">更新</button>
         </form>
 
         	

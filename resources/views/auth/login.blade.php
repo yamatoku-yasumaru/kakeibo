@@ -2,13 +2,8 @@
 
 @section('content')
 
-    <div class="prose mx-auto text-center">
+    <div class="prose mx-auto text-center" style="font-family:cursive">
         <h2>Log in</h2>
-        <style>
-        h2 {
-            font-family:cursive;
-        }
-        </style>
     </div>
     
     <div class="flex justify-center">

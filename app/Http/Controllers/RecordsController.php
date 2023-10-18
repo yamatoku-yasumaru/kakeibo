@@ -12,16 +12,28 @@ use Illuminate\Support\Facades\DB;
 class RecordsController extends Controller
 {
     // getでrecords/にアクセスされた場合の「一覧表示処理」
-    public function index()
+    public function index(Request $request)
     {
-        $start_date = Carbon::now()->startOfMonth()->toDateString();
-        $end_date = Carbon::now()->endOfMonth()->toDateString();
+        $month = $request->month;
+        
+        if($month == null){
+            $month =  Carbon::now()->format('Y-m');
+            $prev_month = Carbon::now()->firstOfMonth()->subMonth(1)->format('Y-m');
+            $next_month = Carbon::now()->firstOfMonth()->addMonth(1)->format('Y-m');
+            $start_date = Carbon::now()->startOfMonth()->toDateString();
+            $end_date = Carbon::now()->endOfMonth()->toDateString();
+        }else{
+            $start_date = $month . '-01';
+            $end_date = (new Carbon($start_date))->endOfMonth()->toDateString();
+            $prev_month = (new Carbon($start_date))->subMonth(1)->format('Y-m');
+            $next_month = (new Carbon($start_date))->firstOfMonth()->addMonth(1)->format('Y-m');
+        }
+
         
         // 入力一覧を取得
         $records = Record::whereHas('Category', function($query){
             $query->where('user_id', \Auth::id());
-        })->where('date', '>', $start_date)->where('date', '<', $end_date)->orderBy('date')->paginate(10);
-  
+        })->where('date', '<=',  $end_date)->where('date', '>=', $start_date)->orderBy('date')->paginate(10);                                                                                                                           
 
         $amount_income = 0;
         $amount_outcome = 0;
@@ -40,6 +52,9 @@ class RecordsController extends Controller
         
         // 一覧ビューでそれを表示
         return view('records.index', [
+            'month' => $month,
+            'prev_month' => $prev_month,
+            'next_month' => $next_month,
             'records' => $records,
             'amount_income' => $amount_income,
             'amount_outcome' => $amount_outcome,
@@ -157,8 +172,9 @@ class RecordsController extends Controller
         // $date = date('Y-m-d');
         $start_date = Carbon::now()->startOfMonth()->toDateString();
         $end_date = Carbon::now()->endOfMonth()->toDateString();
+       
         $params = ["user_id" => \Auth::id(), 'category_name' => '収入'];
-        $records = DB::select('SELECT records.id AS id, CONCAT(categories.name, CONCAT(records.memo, records.amount)) AS title, records.amount AS description, records.date AS start, records.date AS end FROM records JOIN categories ON records.category_id = categories.id WHERE  categories.user_id = :user_id AND categories.name != :category_name', $params);
+        $records = DB::select('SELECT records.id AS id, CONCAT(categories.name, CONCAT(records.amount)) AS title, records.amount AS description, records.date AS start, records.date AS end FROM records JOIN categories ON records.category_id = categories.id WHERE  categories.user_id = :user_id AND categories.name != :category_name', $params);
         // dd($records);
         $list = array('records' => $records);
         // 明示的に指定しない場合は、text/html型と判断される
@@ -167,4 +183,19 @@ class RecordsController extends Controller
         echo json_encode($list);
         exit;
     }
+    
+     public function chartjsindex() { 
+
+        return view('chartjs.index');
+
+    }
+    public function chartGet(Request $request) { 
+
+        return Record::select('category', 'amount')
+            ->where('month', $request->month)
+            ->get();
+
+    }
+
+    
 }

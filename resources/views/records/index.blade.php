@@ -2,35 +2,45 @@
 
 @section('content')
 
-    <div class='bg-white p-6 roundded shadow'>
-        <div class=text-x2 mb-6>
-            <h2>今月の合計</h2>
-         <p class='text-2xl'>￥{{ number_format($amount_income - $amount_outcome) }}</p>
-        </div>    
+    <div class="text-lg text-center">
+        <a href="/records?month={{ $prev_month }}" id="prev">前月</a> < <span id="now">{{ $month }}</span> ><a href="/records?month={{ $next_month }}" id="next">次月</a>
     </div>
     
-    <div class="form-group row">
-    <div class='bg-white p-6 roundded shadow'>
-        <div class=text-x1 mb-6>
-            <h2>今月の収入</h2>
-            <p class='text-2xl'>￥{{ number_format($amount_income) }}</p>
+   <!--合計表示-->
+   <div class="card-body">
+        <div class='bg-gray p-6 roundded shadow'>
+            <div class=text-x2 mb-6>
+                <h2>今月の合計</h2>
+                <p class='text-2xl'>￥{{ number_format($amount_income - $amount_outcome) }}</p>
+            </div>    
         </div>
     </div>
     
-    <div class='bg-white p-6 roundded shadow'>
-        <div class=text-x1 mb-6>
-            <h2>今月の支出</h2>
-            <p class='text-2xl'>￥{{ number_format($amount_outcome) }}</p>
+    <div class="card-body">
+        <div class='bg-white p-6 roundded shadow'>
+            <div class=text-x1>
+                <h2>今月の収入</h2>
+                <p class='text-2xl'>￥{{ number_format($amount_income) }}</p>
+            </div>
         </div>
     </div>
+    
+    <div class="card-body">    
+        <div class='bg-white p-6 roundded shadow'>
+            <div class=text-x1>
+                <h2>今月の支出</h2>
+                <p class='text-2xl'>￥{{ number_format($amount_outcome) }}</p>
+            </div>
+        </div>
     </div>
     
     <!--カレンダー表示-->
 
-    <div id='calendar'></div>
+   <div id='calendar'></div>
 
-
-  @if (isset($records))
+    <!--入力済みのデータ表示-->
+    <div class="card-body">
+    @if (isset($records))
         <table class="table table-zebra w-full my-4">
             <thead>
                 <tr>
@@ -41,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-     @foreach($records as $record)
+        @foreach($records as $record)
         <tr>
             <td><a class="link link-hover text-info" href="{{ route('records.show', $record->id) }}">{{ $record->date }}</a></td>
             <td>{{$record->category->name}}</td>
@@ -53,19 +63,18 @@
         @method('DELETE')
         <button type="submit" class="btn btn-error btn-outline" 
             onclick="return confirm('id = {{ $record->id }} 削除します。よろしいですか？')">削除</button>
-    </form></td>
+        </form></td>
         </tr>
-    @endforeach
+        @endforeach
     
             </tbody>
         </table>
     @endif
 
-
         <td class="button-td">
+    </div>
             
     {{-- ページネーションのリンク --}}
     {{ $records->links() }}
 
-                           
 @endsection
