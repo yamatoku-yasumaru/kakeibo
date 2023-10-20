@@ -189,10 +189,25 @@ class RecordsController extends Controller
         return view('chartjs.index');
 
     }
+    
     public function chartGet(Request $request) { 
+        $month = $request->month;
+        
+        if($month == null){
+            $month =  Carbon::now()->format('Y-m');
+            $prev_month = Carbon::now()->firstOfMonth()->subMonth(1)->format('Y-m');
+            $next_month = Carbon::now()->firstOfMonth()->addMonth(1)->format('Y-m');
+            $start_date = Carbon::now()->startOfMonth()->toDateString();
+            $end_date = Carbon::now()->endOfMonth()->toDateString();
+        }else{
+            $start_date = $month . '-01';
+            $end_date = (new Carbon($start_date))->endOfMonth()->toDateString();
+            $prev_month = (new Carbon($start_date))->subMonth(1)->format('Y-m');
+            $next_month = (new Carbon($start_date))->firstOfMonth()->addMonth(1)->format('Y-m');
+        }
 
         return Record::select('category', 'amount')
-            ->where('month', $request->month)
+            ->where('date', '<=',  $end_date)->where('date', '>=', $start_date)
             ->get();
 
     }

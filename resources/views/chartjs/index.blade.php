@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-6">
 
-                <!-- 👇 円グラフを表示するキャンバス -->
+                <!--  円グラフを表示するキャンバス -->
                 <canvas id="chart" width="400" height="400"></canvas>
 
 
@@ -28,10 +28,10 @@
                 chart: null
             },
 
-                getSales() {
+                getCategories() {
 
-                    // 👇 販売実績データを取得 ・・・ ②
-                    fetch('/ajax/sales?year='+ this.year)
+                    //  販売実績データを取得 ・・・ ②
+                    fetch('/records/chartjs?month='+ this.month)
                         .then(response => response.json())
                         .then(data => {
 
@@ -41,14 +41,14 @@
 
                             }
 
-                            // 👇 lodashでデータを加工 ・・・ ③
+                            //  lodashでデータを加工 ・・・ ③
                             const groupedCategories = _.groupBy(data, 'category'); // 会社ごとにグループ化
-                            const amounts = _.map(groupedCategories, companySales => {
+                            const amounts = _.map(groupedCategories, aggregationbycategory => {
 
-                                return _.sumBy(companySales, 'amount'); // 金額合計
+                                return _.sumBy(aggregationbycategory, 'amount'); // 金額合計
 
                             });
-                            const companyNames = _.keys(groupedSales); // 会社名
+                            const categoryNames = _.keys(groupedCategories); // 会社名
 
                             // 👇 円グラフを描画 ・・・ ④
                             const ctx = document.getElementById('chart').getContext('2d');
@@ -67,7 +67,7 @@
                                             'rgb(201, 203, 207)'
                                         ]
                                     }],
-                                    labels: companyNames
+                                    labels: categoryNames
                                 },
                                 options: {
                                     title: {
@@ -84,7 +84,7 @@
                                                 const amount = data.datasets[datasetIndex].data[index];
                                                 const amountText = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                                                 const company = data.labels[index];
-                                                return ' '+ company +' '+amountText +' 円';
+                                                return ' '+ category +' '+amountText +' 円';
 
                                             }
                                         }
@@ -98,8 +98,8 @@
             },
             mounted() {
 
-                this.getYears();
-                this.getSales();
+                this.getMonths();
+                this.getCategories();
 
             }
         });

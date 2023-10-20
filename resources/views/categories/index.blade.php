@@ -5,13 +5,14 @@
  <div class="sm:grid sm:grid-cols-3 sm:gap-10">
         <aside class="mt-4">
             {{-- ユーザ情報 --}}
-            @include('users.card')
+            @include('users.index')
         </aside>
     </div>
 
 
 	@if (isset($categories))
-	<label for="category">カテゴリー</label>
+	<div style="margin-top: 50px;">
+	<b><h2>カテゴリー</h2></b>
 
     <table class="table  w-1/2 my-4">
         @foreach($categories as $category)
@@ -32,8 +33,11 @@
     
     @endif
 
-</div>
-
+</table>
+<p>
      <a class="btn btn-outline" href="{{ route('categories.create') }}">＋追加</a>
+     </p>
+
+</div>
 
 @endsection

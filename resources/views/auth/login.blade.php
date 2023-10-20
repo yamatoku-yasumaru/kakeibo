@@ -29,7 +29,7 @@
         </div>
             
             <div align="center">
-            <button type="submit" class="btn btn-primary btn">ログイン</button>
+            <button type="submit" class="py-2 px-4 bg-sky-300 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">ログイン</button>
             </div>
             
         </form>

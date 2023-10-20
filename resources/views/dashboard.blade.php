@@ -6,7 +6,7 @@
   <div class="sm:grid sm:grid-cols-3 sm:gap-10">
             <aside class="mt-4">
                 {{-- ユーザ情報 --}}
-                @include('users.card')
+                @include('users.index')
             </aside>
             <div class="sm:col-span-2">
                 {{-- 投稿フォーム --}}
@@ -23,7 +23,7 @@
                 {{-- ログインページへのリンク --}}
                 <a class="btn btn-primary normal-case" href="{{ route('login') }}">ログイン</a>
                 {{-- ユーザ登録ページへのリンク --}}
-                <a class="btn btn-dander normal-case" href="{{ route('register') }}">会員登録</a>
+                <a class="btn btn-primary normal-case" href="{{ route('register') }}">会員登録</a>
 
                 
             </div>

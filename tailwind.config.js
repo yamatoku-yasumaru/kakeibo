@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,19 +14,7 @@ module.exports = {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
-            color:{
-                    white: {
-                    300: "#F8F8F8",
-                    500: "#fff",
-                    },
-                    blue: {
-                    300: "#93c5fd",
-                    400: "##60a5fa",
-                    },
-                     red: {
-                    300: "#fca5a5",
-                    },
-            },
+    
         },
     },
 

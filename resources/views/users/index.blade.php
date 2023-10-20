@@ -1,24 +1,21 @@
-@if (isset($users))
-    <ul class="list-none">
-        @foreach ($users as $user)
-            <li class="flex items-center gap-x-2 mb-4">
-                {{-- ユーザのメールアドレスをもとにGravatarを取得して表示 --}}
-                <div class="avatar">
-                    <div class="w-12 rounded">
-                        <img src="{{ Gravatar::get($user->email) }}" alt="" />
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        {{ $user->name }}
-                    </div>
-                    <div>
-                        {{-- ユーザ詳細ページへのリンク --}}
-                        <p><a class="link link-hover text-info" href="{{ route('users.show', $user->id) }}">View profile</a></p>
-                    </div>
-                </div>
-            </li>
-        @endforeach
-    </ul>
+<!--ユーザーの情報と編集ボタン-->
+<h2>プロフィール</h2>
+ 
+<div style="margin-top: 30px;">
+   
+<table class="table table-striped">  
+<tr>
+<th>氏名</th>
+<td>{{ Auth::user()->name }}</td>
+</tr>  
+<tr>
+<th>メールアドレス</th>
+<td>{{ Auth::user()->email }}</td>
+</tr>  
+<tr>
 
-@endif
+  
+    <td><a class="btn btn-outline" href="{{ route('users.edit', Auth::user()) }}">編集</a></td>
+</table>
+ 
+          

@@ -5,24 +5,58 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;                        
-use App\Models\User;                                        
+use App\Models\User;
+use App\Models\Category;
 
 class UsersController extends Controller
 {
-    public function index()     
+    public function index($id)     
     { 
-                                                
-    }                                                   
-    
-   public function show($id)
-    {
-        // idの値でユーザを検索して取得
+        
         $user = User::findOrFail($id);
 
-        // ユーザ詳細ビューでそれを表示
-        return view('users.show', [
-            'user' => $user,
-        ]);
+        
+        return view('users.index', [              
+            'user' => $user,                  
+        ]);                                                 
+    }                                                   
+    
+   public function show()
+    {
+
     }
+    
+     public function edit($id)
+    {
+        dd($id);
+        
+        $user = User::findOrFail($id);
+        
+        // 取得した値をビュー「user/edit」に渡す
+        return view('users.edit', [              
+            'user' => $user,                  
+        ]);                           
+        
+    }
+
+    public function update(Request $request, $id)
+    {
+        
+        $request->validate([
+            'user' => 'required',
+        ]);
+        
+        // パラメータで指定されたIDをキーにしてUserの情報を取得
+        $category = Category::findOrFail($id);
+        
+                $user->name = $request->input('user');
+                $user->mail = $request->input('user');
+                $user->user_id = \Auth::id();
+            $usesr->save();
+        // ユーザー一覧へ
+        return redirect("/categories");
+    }
+
+
     
 }
