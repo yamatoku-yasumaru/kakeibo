@@ -184,12 +184,6 @@ class RecordsController extends Controller
         exit;
     }
     
-     public function chartjsindex() { 
-
-        return view('chartjs.index');
-
-    }
-    
     public function chartGet(Request $request) { 
         $month = $request->month;
         
@@ -206,9 +200,18 @@ class RecordsController extends Controller
             $next_month = (new Carbon($start_date))->firstOfMonth()->addMonth(1)->format('Y-m');
         }
 
-        return Record::select('category', 'amount')
-            ->where('date', '<=',  $end_date)->where('date', '>=', $start_date)
-            ->get();
+       $records = Record::whereHas('Category', function($query){
+            $query->where('user_id', \Auth::id());
+        })->where('date', '<=',  $end_date)->where('date', '>=', $start_date);
+        
+        $list = array('records' => $records);
+        $ary_categories = array_column($list, 'category');
+        $ary_amounts = array_column($list,'amount');
+        
+        $labels = $ary_categories;
+        $data = $ary_amounts;
+
+        return view('chartjs.index', compact('labels', 'data'));
 
     }
 

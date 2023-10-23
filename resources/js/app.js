@@ -3,8 +3,7 @@ import './bootstrap';
 import Alpine from 'alpinejs';
 
 import './calendar';
-
-import './chartjs';
+import './mychart';
 
 window.Alpine = Alpine;
 

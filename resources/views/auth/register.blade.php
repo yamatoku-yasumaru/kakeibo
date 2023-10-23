@@ -12,42 +12,42 @@
 
         <div align="center">
             <div class="form-group row">
-                <label for="name" class="label w-4/5 my-4">
+                <label for="name" class="label">
                     <span class="label-text">名前</span>
-                <input type="text" name="name" class="input input-bordered ">
+                <input type="text" name="name" class="input input-bordered w-1/2 my-4">
                 </label>
             </div>
         </div>
 
         <div align="center">
             <div class="form-group row">
-                <label for="email" class="label w-4/5 my-4">
+                <label for="email" class="label">
                     <span class="label-text">メール</span>
-                <input type="email" name="email" class="input input-bordered">
+                <input type="email" name="email" class="input input-bordered w-1/2 my-4">
                 </label>
             </div>
         </div>
 
         <div align="center">
             <div class="form-group row">
-                <label for="password" class="label w-4/5 my-4">
+                <label for="password" class="label">
                     <span class="label-text">パスワード</span>
-                <input type="password" name="password" class="input input-bordered">
+                <input type="password" name="password" class="input input-bordered w-1/2 my-4">
                 </label>
             </div>
         </div>
 
         <div align="center">
             <div class="form-group row">
-                <label for="password_confirmation" class="label w-4/5 my-4">
+                <label for="password_confirmation" class="label">
                     <span class="label-text">パスワード（確認用）</span>
-                <input type="password" name="password_confirmation" class="input input-bordered">
+                <input type="password" name="password_confirmation" class="input input-bordered w-1/2 my-4">
                 </label>
             </div>
         </div>
 
             <div align="center">
-                <button type="submit" class="btn btn-primary">登録</button>
+                <button type="submit" class="btn normal-case bg-red-400">登録</button>
             </div>
         </form>
     </div>

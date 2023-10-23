@@ -37,7 +37,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UsersController::class);
     
     Route::get('get_data', [RecordsController::class, 'scheduleGet']);
-    Route::get('/chartjs', [RecordsController::class,'chartjsindex']); // ブラウザでアクセス
-    Route::get('records/chartjs', [RecordsController::class,'chartGet']); // 売上データ取得
+    Route::get('chartjs', [RecordsController::class, 'chartGet']);
     
 });           

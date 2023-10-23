@@ -2,24 +2,24 @@
 
 @section('content')
 
-    <div class="text-2xl flex justify-center items-center"><b>
-        <a href="/records?month={{ $prev_month }}" id="prev">前月</a> < <span id="now">{{ $month }}</span> ><a href="/records?month={{ $next_month }}" id="next">次月</a>
+    <div class="flex justify-center items-center"><b>
+        <a href="/records?month={{ $prev_month }}" id="prev" class="border rounded-md shadow-sm p-3 bg-slate-100">前月</a> < <span id="now" class="text-2xl underline">{{ $month }}</span> ><a href="/records?month={{ $next_month }}" id="next" class="border rounded-md shadow-sm p-3 bg-slate-100">次月</a>
     </div></b>
     
    <!--合計表示-->
-    <div class space-y-4'>
-    <div class='border rounded-md bg-emerald-300 p-5 shadow-sm'>
-        <div class=text-x1>今月の合計</div>
-            <div class='text-2xl bg-white p-3'>￥{{ number_format($amount_income - $amount_outcome) }}</div>
+   
+    <div class='border rounded-md bg-emerald-300 p-2 shadow-sm my-10 mx-7'>
+        <div class="text-x1"><b>今月の合計</b></div>
+            <div class='text-2xl bg-white px-4 py-4'>￥{{ number_format($amount_income - $amount_outcome) }}</div>
     </div>
     
     <div class="flex">
-        <div class="rounded-md border bg-orange-300 p-5 shadow-sm flex-1">今月の収入
-            <p class='text-2xl bg-white p-3'>￥{{ number_format($amount_income) }}</p>
+        <div class="rounded-md border bg-orange-300 p-2 shadow-sm flex-1 ml-7 mr-6"><b>今月の収入</b>
+            <p class='text-2xl bg-white px-4 py-4'>￥{{ number_format($amount_income) }}</p>
         </div>
     
-        <div class="rounded-md border bg-blue-400 p-5 shadow-sm flex-1">今月の支出
-            <p class='text-2xl bg-white p-3'>￥{{ number_format($amount_outcome) }}</p>
+        <div class="rounded-md border bg-blue-400 p-2 shadow-sm flex-1 ml-6 mr-7"><b>今月の支出</b>
+            <p class='text-2xl bg-white px-4 py-4'>￥{{ number_format($amount_outcome) }}</p>
         </div>
     </div>
     
@@ -31,7 +31,7 @@
     <!--入力済みのデータ表示-->
     <div class="card-body">
     @if (isset($records))
-        <table class="table table-zebra w-full my-4">
+        <table class="table w-full my-4">
             <thead>
                 <tr>
                     <th>日付</th>
@@ -46,7 +46,7 @@
             <td><a class="link link-hover text-info" href="{{ route('records.show', $record->id) }}">{{ $record->date }}</a></td>
             <td>{{$record->category->name}}</td>
             <td>{{$record->memo}}</td>
-            <td>￥{{number_format($record->amount)}}</td>
+            <td><b>￥{{number_format($record->amount)}}</td></b>
             <td> <a class="btn btn-outline bg-lime-400" href="{{ route('records.edit', $record->id) }}">編集</a></td>
             <td> <form method="POST" action="{{ route('records.destroy', $record->id) }}" >
             @csrf

@@ -21,9 +21,9 @@
                 <h2>Welcome</h2>
             
                 {{-- ログインページへのリンク --}}
-                <a class="btn btn-primary normal-case" href="{{ route('login') }}">ログイン</a>
+                <a class="btn normal-case bg-blue-400" href="{{ route('login') }}">ログイン</a>
                 {{-- ユーザ登録ページへのリンク --}}
-                <a class="btn btn-primary normal-case" href="{{ route('register') }}">会員登録</a>
+                <a class="btn normal-case bg-red-400" href="{{ route('register') }}">会員登録</a>
 
                 
             </div>

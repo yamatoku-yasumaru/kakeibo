@@ -1,26 +1,33 @@
-<!--ユーザー編集画面-->
 
 @extends('layouts.app') 
 @section('content')
 
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">ユーザ編集</div>
-        <div class="card-body">
-          <!-- 重要な箇所ここから -->
+<div class="prose ml-4">
+        <h2>編集</h2>
+    </div>
+    
+
+        
         <form method="POST" action="{{ route('users.update', $user->id) }}" class="p-form p-form--input-user">
             @csrf
+            @method('PUT')
+            
             <p>ID: {{ $user->id }}</p>
             <input type="hidden" name="id" value="{{ $user->id }}" />
+ 
+            <div class="p-form__flex-input">
             <p>名前</p>
-            <input type="text" name="name" value="{{ $user->name }}" />
+            <input type="text" name="name" value="{{ $user->name }}">
+            </div>
+            
+            <div class="p-form__flex-input">
             <p>メール</p>
-            <input type="text" name="email" value="{{ $user->mail }}" /><br />
+            <input type="mail" name="email" value="{{ $user->mail }}">
+            </div>
+            
             <input type="submit" value="更新" />
           </form>
-          <!-- 重要な箇所ここまで -->
+       
         </div>
       </div>
     </div>

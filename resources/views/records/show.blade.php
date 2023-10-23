@@ -2,8 +2,8 @@
 
 @section('content')
 
-
-    <table class="table w-full my-4">
+<div class="card-body flex justify-center">
+    <table class="table m-6">
         <tr>
             <th>日付</th>
             <td>{{ $record->date }}</td>
@@ -26,15 +26,19 @@
     </table>
 
 {{-- 編集ページへのリンク --}}
-    <a class="btn btn-outline" href="{{ route('records.edit', $record->id) }}">編集</a>
+    <div class="flex justify-center">
+    <a class="btn btn-outline bg-lime-400 mr-5" href="{{ route('records.edit', $record->id) }}">編集</a>
     
      {{-- メッセージ削除フォーム --}}
-    <form method="POST" action="{{ route('records.destroy', $record->id) }}" class="my-2">
+    <form method="POST" action="{{ route('records.destroy', $record->id) }}">
         @csrf
         @method('DELETE')
         
-        <button type="submit" class="btn btn-error btn-outline" 
+        <button type="submit" class="btn btn-outline bg-red-200 text-red-700 ml-5" 
             onclick="return confirm('削除します。よろしいですか？')">削除</button>
     </form>
+    </div>
+    
+</div>
 @endsection
     

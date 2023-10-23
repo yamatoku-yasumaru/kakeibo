@@ -17,7 +17,7 @@ class UsersController extends Controller
 
         
         return view('users.index', [              
-            'user' => $user,                  
+            'users' => $users,                  
         ]);                                                 
     }                                                   
     
@@ -28,13 +28,12 @@ class UsersController extends Controller
     
      public function edit($id)
     {
-        dd($id);
         
         $user = User::findOrFail($id);
         
         // 取得した値をビュー「user/edit」に渡す
         return view('users.edit', [              
-            'user' => $user,                  
+            'user' => $user,
         ]);                           
         
     }
@@ -49,9 +48,9 @@ class UsersController extends Controller
         // パラメータで指定されたIDをキーにしてUserの情報を取得
         $category = Category::findOrFail($id);
         
-                $user->name = $request->input('user');
-                $user->mail = $request->input('user');
-                $user->user_id = \Auth::id();
+            $user->name = $request->input('user');
+            $user->mail = $request->input('user');
+            $user->password = $request->input('user');
             $usesr->save();
         // ユーザー一覧へ
         return redirect("/categories");
