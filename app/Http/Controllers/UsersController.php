@@ -50,7 +50,6 @@ class UsersController extends Controller
         
             $user->name = $request->input('user');
             $user->mail = $request->input('user');
-            $user->password = $request->input('user');
             $usesr->save();
         // ユーザー一覧へ
         return redirect("/categories");

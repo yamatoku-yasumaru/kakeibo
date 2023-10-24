@@ -185,6 +185,7 @@ class RecordsController extends Controller
     }
     
     public function chartGet(Request $request) { 
+        
         $month = $request->month;
         
         if($month == null){
@@ -199,19 +200,20 @@ class RecordsController extends Controller
             $prev_month = (new Carbon($start_date))->subMonth(1)->format('Y-m');
             $next_month = (new Carbon($start_date))->firstOfMonth()->addMonth(1)->format('Y-m');
         }
-
-       $records = Record::whereHas('Category', function($query){
-            $query->where('user_id', \Auth::id());
-        })->where('date', '<=',  $end_date)->where('date', '>=', $start_date);
         
-        $list = array('records' => $records);
-        $ary_categories = array_column($list, 'category');
-        $ary_amounts = array_column($list,'amount');
+       
+        $params = ["user_id" => \Auth::id(), 'category_name' => '収入', 'start_date' => $start_date, 'end_date' => $end_date];
+        $records = DB::select('select categories.name as label, SUM(records.amount) as data from records join categories on records.category_id=categories.id where categories.user_id=:user_id AND records.date >= :start_date AND records.date <= :end_date AND categories.name != :category_name GROUP BY categories.id', $params);
         
-        $labels = $ary_categories;
-        $data = $ary_amounts;
+        $labels = [];
+        $data = [];
 
-        return view('chartjs.index', compact('labels', 'data'));
+        foreach($records as $record){
+            $labels[] = $record->label;
+            $data[] = $record->data;
+        }
+        
+        return view('chartjs.index', compact('month', 'prev_month', 'next_month', 'labels', 'data'));
 
     }
 

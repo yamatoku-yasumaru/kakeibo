@@ -2,8 +2,8 @@
 
 @section('content')
 
-<div class="card-body flex justify-center">
-    <table class="table m-6">
+<div class = "w-screen flex justify-center">
+    <table class="table w-1/2 my-10">
         <tr>
             <th>日付</th>
             <td>{{ $record->date }}</td>
@@ -16,7 +16,7 @@
         
           <tr>
             <th>金額</th>
-            <td>{{ $record->amount }}</td>
+            <td>￥{{ $record->amount }}</td>
         </tr>
         
           <tr>
@@ -24,9 +24,10 @@
             <td>{{ $record->memo }}</td>
         </tr>
     </table>
+</div>
 
 {{-- 編集ページへのリンク --}}
-    <div class="flex justify-center">
+    <div class="flex justify-center my-8">
     <a class="btn btn-outline bg-lime-400 mr-5" href="{{ route('records.edit', $record->id) }}">編集</a>
     
      {{-- メッセージ削除フォーム --}}
@@ -39,6 +40,5 @@
     </form>
     </div>
     
-</div>
 @endsection
     

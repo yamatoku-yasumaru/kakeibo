@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-
+<div class = "w-screen">
+    
     <div class="flex justify-center items-center"><b>
-        <a href="/records?month={{ $prev_month }}" id="prev" class="border rounded-md shadow-sm p-3 bg-slate-100">前月</a> < <span id="now" class="text-2xl underline">{{ $month }}</span> ><a href="/records?month={{ $next_month }}" id="next" class="border rounded-md shadow-sm p-3 bg-slate-100">次月</a>
+        <a href="/records?month={{ $prev_month }}" id="prev" class="btn btn-outline bg-slate-100">前月</a> < <span id="now" class="text-2xl underline">{{ $month }}</span> ><a href="/records?month={{ $next_month }}" id="next" class="btn btn-outline bg-slate-100">次月</a>
     </div></b>
     
    <!--合計表示-->
-   
     <div class='border rounded-md bg-emerald-300 p-2 shadow-sm my-10 mx-7'>
         <div class="text-x1"><b>今月の合計</b></div>
             <div class='text-2xl bg-white px-4 py-4'>￥{{ number_format($amount_income - $amount_outcome) }}</div>
@@ -26,7 +26,7 @@
     <!--カレンダー表示-->
     <div class="card-body">
         <div id='calendar'></div>
-   </div>
+    </div>
 
     <!--入力済みのデータ表示-->
     <div class="card-body">
@@ -68,3 +68,4 @@
     {{ $records->links() }}
 
 @endsection
+</div>
