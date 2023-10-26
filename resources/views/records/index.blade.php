@@ -29,9 +29,9 @@
     </div>
 
     <!--入力済みのデータ表示-->
-    <div class="card-body">
+    <div class="card-body flex justify-center w-screen">
     @if (isset($records))
-        <table class="table w-full my-4">
+        <table class="table w-full my-3">
             <thead>
                 <tr>
                     <th>日付</th>
@@ -47,6 +47,7 @@
             <td>{{$record->category->name}}</td>
             <td>{{$record->memo}}</td>
             <td><b>￥{{number_format($record->amount)}}</td></b>
+          
             <td> <a class="btn btn-outline bg-lime-400" href="{{ route('records.edit', $record->id) }}">編集</a></td>
             <td> <form method="POST" action="{{ route('records.destroy', $record->id) }}" >
             @csrf

@@ -3,7 +3,7 @@
 @section('content')
 
 <div class = "w-screen flex justify-center">
-    <table class="table w-1/2 my-10">
+    <table class="table border w-5/12 my-10">
         <tr>
             <th>日付</th>
             <td>{{ $record->date }}</td>

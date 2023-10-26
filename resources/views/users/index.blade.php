@@ -1,8 +1,10 @@
-<div clas="text-2xl text-center my-16"><b>プロフィール</b></div>
 
-
-<div class="card-body">  
-    <table class="table table-striped flex justify-center">  
+    <figure>
+        {{-- ユーザのメールアドレスをもとにGravatarを取得して表示 --}}
+        <img src="{{ Gravatar::get(Auth::user()->email, ['size' => 200]) }}" alt="">
+    </figure>
+ 
+    <table class="table border w-3/5">            
         <tr>
             <th>氏名</th>
             <td>{{ Auth::user()->name }}</td>
@@ -12,6 +14,3 @@
             <td>{{ Auth::user()->email }}</td>
         </tr>
     </table>
-  
-    <a class="btn btn-outline bg-lime-400" href="{{ route('users.edit', Auth::user()) }}">編集</a>
-</div>

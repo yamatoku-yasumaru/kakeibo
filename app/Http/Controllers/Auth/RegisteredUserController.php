@@ -46,6 +46,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::TOP)->with('flash_message','まずはカテゴリーを追加しましょう！');
     }
 }

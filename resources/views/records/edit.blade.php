@@ -4,7 +4,7 @@
 
     <div class="text-2xl flex justify-center my-8"><b>編集</b></div>
 
-    <section class="p-section p-section__records-input flex justify-center">
+    <section class="p-section p-section__records-input flex justify-center w-screen">
     
         <form method="POST" action="{{ route('records.update', $record->id) }}" class="p-form p-form--input-record">
             @csrf
@@ -44,7 +44,9 @@
                     </label>
                 </div>
 
+            <div class = "flex justify-center">
             <button class="btn btn-outline bg-orange-300 flex items-center" type="submit">更新</button>
+            </div>
         </form>
     </div>
 

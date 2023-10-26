@@ -2,14 +2,13 @@
 @extends('layouts.app')
 @section('content')
 
-  
+<div class='w-screen'>
   <div class="text-2xl text-center my-8"><b>新規作成</b></div>
     
-  <section class="p-section p-section__records-input flex justify-center">
+  <section class="p-section p-section__records-input flex justify-center w-screen">
     <form method="POST" action="{{ route('records.store') }}">
       @csrf
-        
-        <input type="hidden" name="date" id="date" value="<?php echo date("Y/m/d"); ?>">
+      
         <div class="p-form__flex-input flex justify-center mt-4 mb-8"><b>日付</b>
           <label for="date" class="ml-40"><input type="date" name="date" id="date" value="<?php echo date("Y-m-d"); ?>" required></label>
         </div>
@@ -38,9 +37,12 @@
               <input type="text" name="memo" class="input input-bordered"  maxlength="20">
             </label>
         </div>
-
-         <button class="btn btn-outline bg-orange-300 flex items-center mr-10" type="submit">登録</button>
+        
+        <div class="flex justify-center">
+         <button class="btn btn-outline bg-orange-300 mr-10" type="submit">登録</button>
+         </div>
     </form>
   </section>
   
 @endsection
+</div>

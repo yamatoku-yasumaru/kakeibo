@@ -48,7 +48,6 @@ class RecordsController extends Controller
             }
                                                                                                                                                                                                 
         }                                                                                           
-
         
         // 一覧ビューでそれを表示
         return view('records.index', [
@@ -88,8 +87,14 @@ class RecordsController extends Controller
             'category_id'=> 'required|integer',
             'date'=> 'required|date',
             'amount'=> 'required|max:7',
-            'memo'=> 'required|max:20'
+            'memo'=> 'nullable|max:20'
+        ],
+
+        [
+        'category_id.required' => 'カテゴリーの登録がありません。カテゴリーを追加してください。',
+        'amount.required' => '金額の登録は必須です。'
         ]);
+
 
         // 登録処理
         $record = new Record;
@@ -136,9 +141,9 @@ class RecordsController extends Controller
         // バリデーション
         $request->validate([
             'category_id'=> 'required|integer',
-            'input_time'=> 'required|date',
+            'date'=> 'required|date',
             'amount'=> 'required|max:7',
-            'memo'=> 'required|max:20'
+            'memo'=> 'nullable|max:20'
         ]);
         
         // idの値でメッセージを検索して取得
@@ -203,7 +208,7 @@ class RecordsController extends Controller
         
        
         $params = ["user_id" => \Auth::id(), 'category_name' => '収入', 'start_date' => $start_date, 'end_date' => $end_date];
-        $records = DB::select('select categories.name as label, SUM(records.amount) as data from records join categories on records.category_id=categories.id where categories.user_id=:user_id AND records.date >= :start_date AND records.date <= :end_date AND categories.name != :category_name GROUP BY categories.id', $params);
+        $records = DB::select('select categories.name as label, SUM(records.amount) as data from records join categories on records.category_id=categories.id where categories.user_id=:user_id AND records.date >= :start_date AND records.date <= :end_date AND categories.name != :category_name GROUP BY categories.id ORDER BY SUM(records.amount)DESC', $params);
         
         $labels = [];
         $data = [];
@@ -217,5 +222,4 @@ class RecordsController extends Controller
 
     }
 
-    
 }

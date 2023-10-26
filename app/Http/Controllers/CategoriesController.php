@@ -32,7 +32,7 @@ class CategoriesController extends Controller
         ]);
     }
     
-    public function store(Request $request)
+      public function store(Request $request)
     {
         // バリデーション
         $request->validate([
@@ -73,7 +73,7 @@ class CategoriesController extends Controller
         ]);
     }
  
-     // putまたはpatchでrecords/（任意のid）にアクセスされた場合の「更新処理」
+      // putまたはpatchでcategories/（任意のid）にアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
        // バリデーション
@@ -89,19 +89,19 @@ class CategoriesController extends Controller
         $category->save();
 
         // トップページへリダイレクトさせる
-        return redirect('/records');
+        return redirect('/categories');
 
     }
 
-    // deleteでrecords/（任意のid）にアクセスされた場合の「削除処理」
+    // deleteでcategories/（任意のid）にアクセスされた場合の「削除処理」
     public function destroy($id)
     {
         // idの値でメッセージを検索して取得
         $category = Category::findOrFail($id);
-        // メッセージを削除
+        // 削除
         $category->delete();
 
         // トップページへリダイレクトさせる
-        return redirect('/records');
+        return redirect('/categories');
     }
 }

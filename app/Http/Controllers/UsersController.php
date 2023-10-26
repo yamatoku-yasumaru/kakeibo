@@ -17,7 +17,7 @@ class UsersController extends Controller
 
         
         return view('users.index', [              
-            'users' => $users,                  
+            'user' => $user,                  
         ]);                                                 
     }                                                   
     
@@ -26,7 +26,7 @@ class UsersController extends Controller
 
     }
     
-     public function edit($id)
+     public function edit(string $id)
     {
         
         $user = User::findOrFail($id);
@@ -34,6 +34,7 @@ class UsersController extends Controller
         // 取得した値をビュー「user/edit」に渡す
         return view('users.edit', [              
             'user' => $user,
+            
         ]);                           
         
     }
@@ -42,19 +43,31 @@ class UsersController extends Controller
     {
         
         $request->validate([
-            'user' => 'required',
+            'name' => 'required',
+            'email' => 'required|email:filter'
         ]);
         
         // パラメータで指定されたIDをキーにしてUserの情報を取得
-        $category = Category::findOrFail($id);
+        $user = User::findOrFail($id);
         
-            $user->name = $request->input('user');
-            $user->mail = $request->input('user');
-            $usesr->save();
-        // ユーザー一覧へ
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->save();
+        
         return redirect("/categories");
     }
 
+     // deleteでusers/（任意のid）にアクセスされた場合の「削除処理」
+    public function destroy($id)
+    {
+        // idの値でメッセージを検索して取得
+        $user = User::findOrFail($id);
+        // メッセージを削除
+        $user->delete();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
+    }
 
     
 }
