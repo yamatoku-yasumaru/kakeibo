@@ -18,11 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->date('date');
             $table->integer('amount');
-            $table->string('memo');
+            $table->string('memo')->nullable(true);
             $table->timestamps();
             // 外部キー制約
-            $table->foreign('category_id')->references('id')->on('categories');
-            // $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            // $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
         });
         
     }

@@ -38,8 +38,10 @@ class CategoriesController extends Controller
         // バリデーション
         $request->validate([
         'category' => 'required|max:20',
-        // 'name' => Rule::unique('categories')->where(fn ($query) => $query->where('user_id', \Auth::id()))
-        // 'name' => Rule::unique('categories')
+        Rule::unique('categories', 'name')->where(function($query) {
+                // 入力されたfirstの値と同じ値を持つレコードでのみ検証する
+                $query->where('user_id', \Auth::id());
+            })
         ]);
         
        // 登録処理

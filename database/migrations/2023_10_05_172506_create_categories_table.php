@@ -17,12 +17,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            // $table->unique(['user_id', 'name']);
             // $table->string('name')->unique(['name', 'user_id']);
             $table->timestamps();
             // 外部キー制約
-            $table->foreign('user_id')->references('id')->on('users');
-            // $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            // $table->unique(['user_id', 'name']);
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
         
     }
