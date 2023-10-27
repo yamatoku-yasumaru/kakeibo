@@ -60,13 +60,12 @@ class UsersController extends Controller
      // deleteでusers/（任意のid）にアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        // idの値でメッセージを検索して取得
-        $user = User::findOrFail($id);
-        // メッセージを削除
-        $user->delete();
+        
+        Category::where('user_id',$id)->delete();
+        User::destroy($id);
 
-        // トップページへリダイレクトさせる
         return redirect('/');
+
     }
 
     

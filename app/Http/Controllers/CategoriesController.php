@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use App\Models\Category;   
 use App\Models\Record;
 
@@ -36,7 +37,11 @@ class CategoriesController extends Controller
     {
         // バリデーション
         $request->validate([
-            'category' => 'required|max:20',
+        'category' => 'required|max:20',
+        'name'=>'unique:App\Models\Category,user_id'
+        ],
+         [
+        'name.unique' => 'すでに同じカテゴリー名が登録されています。',
         ]);
         
        // 登録処理
@@ -79,13 +84,14 @@ class CategoriesController extends Controller
        // バリデーション
         $request->validate([
             'category' => 'required|max:20',
+            'name'=>'unique:App\Models\Category,user_id'
         ]);
 
         // idの値でメッセージを検索して取得
         $category = Category::findOrFail($id);
         // メッセージを更新
         $category->user_id = \Auth::id();
-        $category->name = $request->input('category');
+        $category->name = $request->category;
         $category->save();
 
         // トップページへリダイレクトさせる
