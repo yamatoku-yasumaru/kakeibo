@@ -38,17 +38,15 @@ class CategoriesController extends Controller
         // バリデーション
         $request->validate([
         'category' => 'required|max:20',
-        'name'=>'unique:App\Models\Category,user_id'
-        ],
-         [
-        'name.unique' => 'すでに同じカテゴリー名が登録されています。',
+        // 'name' => Rule::unique('categories')->where(fn ($query) => $query->where('user_id', \Auth::id()))
+        // 'name' => Rule::unique('categories')
         ]);
         
        // 登録処理
         $category = new Category;
  
         $category->user_id = \Auth::id();
-        $category->name = $request->category;
+        $category->name = $request->input('category');
         $category->save();
 
          return redirect('/categories');
@@ -84,14 +82,14 @@ class CategoriesController extends Controller
        // バリデーション
         $request->validate([
             'category' => 'required|max:20',
-            'name'=>'unique:App\Models\Category,user_id'
+            // 'name' => Rule::unique('categories')->where(fn ($query) => $query->where('user_id', \Auth::id()))
         ]);
 
         // idの値でメッセージを検索して取得
         $category = Category::findOrFail($id);
         // メッセージを更新
         $category->user_id = \Auth::id();
-        $category->name = $request->category;
+        $category->name = $request->input('category');
         $category->save();
 
         // トップページへリダイレクトさせる
@@ -102,10 +100,8 @@ class CategoriesController extends Controller
     // deleteでcategories/（任意のid）にアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        // idの値でメッセージを検索して取得
-        $category = Category::findOrFail($id);
-        // 削除
-        $category->delete();
+     
+        Category::destroy($id);
 
         // トップページへリダイレクトさせる
         return redirect('/categories');

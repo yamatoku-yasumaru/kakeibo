@@ -28,7 +28,7 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-outline bg-red-200 text-red-700 ml-8" 
-                    onclick="return confirm('ユーザー情報を削除します。本当によろしいですか？')">削除</button>
+                    onclick="return confirm('ユーザー情報を削除します。登録されたデータも削除されますが、本当によろしいですか？')">削除</button>
             </form>
         </div>
     </div>
@@ -49,7 +49,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-outline bg-red-200 text-red-700" 
-                        onclick="return confirm('カテゴリーを削除します。よろしいですか？')">削除</button>
+                        onclick="return confirm('カテゴリーを削除します。このカテゴリー名で登録されたデータも削除されますが、よろしいですか？')">削除</button>
                         </form></td>
                          @if (session('message'))
                             <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 p-5 shadow-md w-4/5 mx-auto" role="alert">

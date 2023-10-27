@@ -61,7 +61,6 @@ class UsersController extends Controller
     public function destroy($id)
     {
         
-        Category::where('user_id',$id)->delete();
         User::destroy($id);
 
         return redirect('/');

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamps();
             // 外部キー制約
             $table->foreign('category_id')->references('id')->on('categories');
+            // $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
         });
         
     }
