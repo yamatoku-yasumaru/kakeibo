@@ -126,7 +126,7 @@ class RecordsController extends Controller
     {
         // idの値でメッセージを検索して取得
         $record = Record::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::where('user_id', \Auth::id())->get();
 
         // メッセージ編集ビューでそれを表示
         return view('records.edit', [

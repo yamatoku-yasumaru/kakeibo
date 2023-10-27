@@ -26,12 +26,10 @@
                     <label for="category" class="label">
                         <span class="label-text"><b>カテゴリー</b></span>
                         <select name="category_id">
-                        @foreach($categories as $category)
-                            @if ($record->category_id == old("category_id"))
-                            <option value="{{ $record->category->id }}" selected>{{ $record->category->name }}</option>
-                            @else
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endif
+                          @foreach($categories as $category)
+                            <option value="{{ $category->id }}"
+                                @if(old('category_id') == $record->category_id) selected @endif>
+                                {{ $category->name }}</option>
                         @endforeach
                         </select>
                     </label>

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            // 外部キー制約
+            $table->foreign('records_id')->references('id')->on('records')->cascadeOnDelete();
         });
     }
 
